@@ -3,8 +3,9 @@ import 'package:just_audio/just_audio.dart';
 
 class MusicPlayer extends StatefulWidget {
   final String song;
+  final List<AudioPlayer> preloadedPlayers;
 
-  MusicPlayer({required this.song});
+  MusicPlayer({required this.song, required this.preloadedPlayers});
 
   @override
   _MusicPlayerState createState() => _MusicPlayerState();
@@ -22,12 +23,26 @@ class _MusicPlayerState extends State<MusicPlayer> {
   }
 
   Future<void> _loadAndPlayAudio() async {
-    await _audioPlayer.setAsset('songs/${widget.song}');
-    _audioPlayer.play();
-    setState(() {
-      _isPlaying = true;
-    });
+    try {
+      _audioPlayer = widget.preloadedPlayers.firstWhere(
+        (player) => player.sequence != null && player.sequence!.first.tag['id'] == 'songs/${widget.song}',
+      );
+
+      await _audioPlayer.play();
+      setState(() {
+        _isPlaying = true;
+      });
+    } catch (e) {
+      print('Error: Audio player not found for song ${widget.song}');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: Could not load song ${widget.song}'),
+        ),
+      );
+    }
   }
+
+
 
   @override
   void dispose() {
