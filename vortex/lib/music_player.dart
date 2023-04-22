@@ -46,7 +46,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
 
   @override
   void dispose() {
-    _audioPlayer.dispose();
+    _audioPlayer.pause();
     super.dispose();
   }
 
