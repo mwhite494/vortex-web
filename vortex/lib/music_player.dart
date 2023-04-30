@@ -87,6 +87,11 @@ class _MusicPlayerState extends State<MusicPlayer> {
                         Expanded(
                           child: Slider(
                             onChanged: (newValue) {
+                              setState(() {
+                                position = Duration(milliseconds: newValue.toInt());
+                              });
+                            },
+                            onChangeEnd: (newValue) {
                               _audioPlayer.seek(Duration(milliseconds: newValue.toInt()));
                             },
                             value: position.inMilliseconds.toDouble(),
