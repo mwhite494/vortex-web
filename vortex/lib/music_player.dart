@@ -13,13 +13,15 @@ class MusicPlayer extends StatefulWidget {
 
 class _MusicPlayerState extends State<MusicPlayer> {
   late AudioPlayer _audioPlayer;
-  bool _isPlaying = false;
 
   @override
   void initState() {
     super.initState();
     _audioPlayer = AudioPlayer();
     _loadAndPlayAudio();
+    _audioPlayer.playingStream.listen((isPlaying) {
+      setState(() {});
+    });
   }
 
   Future<void> _loadAndPlayAudio() async {
@@ -29,9 +31,6 @@ class _MusicPlayerState extends State<MusicPlayer> {
       );
 
       await _audioPlayer.play();
-      setState(() {
-        _isPlaying = true;
-      });
     } catch (e) {
       print('Error: Audio player not found for song ${widget.song}');
       ScaffoldMessenger.of(context).showSnackBar(
@@ -42,11 +41,10 @@ class _MusicPlayerState extends State<MusicPlayer> {
     }
   }
 
-
-
   @override
   void dispose() {
     _audioPlayer.pause();
+    // Do not dispose of the audio player here, as we want to keep the preloaded players active.
     super.dispose();
   }
 
@@ -59,12 +57,11 @@ class _MusicPlayerState extends State<MusicPlayer> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             IconButton(
-              icon: Icon(_isPlaying ? Icons.pause : Icons.play_arrow),
+              icon: Icon(_audioPlayer.playing ? Icons.pause : Icons.play_arrow),
               iconSize: 48,
               onPressed: () {
                 setState(() {
-                  _isPlaying = !_isPlaying;
-                  _isPlaying ? _audioPlayer.play() : _audioPlayer.pause();
+                  _audioPlayer.playing ? _audioPlayer.pause() : _audioPlayer.play();
                 });
               },
             ),
