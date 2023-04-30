@@ -26,11 +26,14 @@ class _MusicPlayerState extends State<MusicPlayer> {
 
   Future<void> _loadAndPlayAudio() async {
     try {
+      print('Loading the audio player from preloaded players...');
       _audioPlayer = widget.preloadedPlayers.firstWhere(
         (player) => player.sequence != null && player.sequence!.first.tag['id'] == 'songs/${widget.song}',
       );
 
+      await _audioPlayer.seek(Duration.zero);
       await _audioPlayer.play();
+      print('Finished loading player! Playing song.');
     } catch (e) {
       print('Error: Audio player not found for song ${widget.song}');
       ScaffoldMessenger.of(context).showSnackBar(
