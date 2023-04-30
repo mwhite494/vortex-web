@@ -69,20 +69,37 @@ class _MusicPlayerState extends State<MusicPlayer> {
               stream: _audioPlayer.durationStream,
               builder: (context, snapshot) {
                 final duration = snapshot.data ?? Duration.zero;
-                return StreamBuilder<Duration>(
+                return StreamBuilder<Duration?>(
                   stream: _audioPlayer.positionStream,
                   builder: (context, snapshot) {
                     var position = snapshot.data ?? Duration.zero;
                     if (position > duration) {
                       position = duration;
                     }
-                    return Slider(
-                      onChanged: (newValue) {
-                        _audioPlayer.seek(Duration(milliseconds: newValue.toInt()));
-                      },
-                      value: position.inMilliseconds.toDouble(),
-                      min: 0.0,
-                      max: duration.inMilliseconds.toDouble(),
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "${position.inMinutes}:${(position.inSeconds % 60).toString().padLeft(2, '0')}",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        SizedBox(width: 8),
+                        Expanded(
+                          child: Slider(
+                            onChanged: (newValue) {
+                              _audioPlayer.seek(Duration(milliseconds: newValue.toInt()));
+                            },
+                            value: position.inMilliseconds.toDouble(),
+                            min: 0.0,
+                            max: duration.inMilliseconds.toDouble(),
+                          ),
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          "${duration.inMinutes}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ],
                     );
                   },
                 );
