@@ -26,14 +26,12 @@ class _MusicPlayerState extends State<MusicPlayer> {
 
   Future<void> _loadAndPlayAudio() async {
     try {
-      print('Loading the audio player from preloaded players...');
       _audioPlayer = widget.preloadedPlayers.firstWhere(
         (player) => player.sequence != null && player.sequence!.first.tag['id'] == 'songs/${widget.song}',
       );
 
       await _audioPlayer.seek(Duration.zero);
       await _audioPlayer.play();
-      print('Finished loading player! Playing song.');
     } catch (e) {
       print('Error: Audio player not found for song ${widget.song}');
       ScaffoldMessenger.of(context).showSnackBar(
@@ -47,7 +45,6 @@ class _MusicPlayerState extends State<MusicPlayer> {
   @override
   void dispose() {
     _audioPlayer.pause();
-    // Do not dispose of the audio player here, as we want to keep the preloaded players active.
     super.dispose();
   }
 
@@ -67,6 +64,50 @@ class _MusicPlayerState extends State<MusicPlayer> {
                   _audioPlayer.playing ? _audioPlayer.pause() : _audioPlayer.play();
                 });
               },
+            ),
+            StreamBuilder<Duration?>(
+              stream: _audioPlayer.durationStream,
+              builder: (context, snapshot) {
+                final duration = snapshot.data ?? Duration.zero;
+                return StreamBuilder<Duration>(
+                  stream: _audioPlayer.positionStream,
+                  builder: (context, snapshot) {
+                    var position = snapshot.data ?? Duration.zero;
+                    if (position > duration) {
+                      position = duration;
+                    }
+                    return Slider(
+                      onChanged: (newValue) {
+                        _audioPlayer.seek(Duration(milliseconds: newValue.toInt()));
+                      },
+                      value: position.inMilliseconds.toDouble(),
+                      min: 0.0,
+                      max: duration.inMilliseconds.toDouble(),
+                    );
+                  },
+                );
+              },
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Volume'),
+                SizedBox(width: 8),
+                StreamBuilder<double>(
+                  stream: _audioPlayer.volumeStream,
+                  builder: (context, snapshot) {
+                    final volume = snapshot.data ?? 1.0;
+                    return Slider(
+                      onChanged: (newValue) {
+                        _audioPlayer.setVolume(newValue);
+                      },
+                      value: volume,
+                      min: 0.0,
+                      max: 1.0,
+                    );
+                  },
+                ),
+              ],
             ),
             SizedBox(height: 16),
             Text(widget.song),
