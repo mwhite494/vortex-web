@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
       AudioPlayer player = AudioPlayer();
       await player.setAudioSource(
         AudioSource.uri(
-          Uri.parse('songs/$song'),
+          Uri.parse('asset:///songs/$song'),
           tag: {'id': 'songs/$song'},
         ),
       );
