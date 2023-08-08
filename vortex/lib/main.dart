@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
-import 'song_selection.dart';
-import 'music_player.dart';
-
+import 'package:vortex/pages/index.dart' show MusicAnalyzerPage, SongSelectionPage;
 
 void main() {
   runApp(MyApp());
@@ -28,12 +26,12 @@ class MyApp extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return Builder(builder: (context) {
-              return SongSelection(
+              return SongSelectionPage(
                 songs: songs,
                 onSelect: (song) => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MusicPlayer(
+                    builder: (context) => MusicAnalyzerPage(
                       song: song,
                       preloadedPlayers: snapshot.data!,
                     ),

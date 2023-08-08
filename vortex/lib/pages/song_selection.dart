@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class SongSelection extends StatelessWidget {
+class SongSelectionPage extends StatelessWidget {
   final List<String> songs;
   final Function(String) onSelect;
 
-  SongSelection({required this.songs, required this.onSelect});
+  SongSelectionPage({required this.songs, required this.onSelect});
 
   @override
   Widget build(BuildContext context) {
