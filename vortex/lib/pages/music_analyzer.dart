@@ -8,7 +8,7 @@ class MusicAnalyzerPage extends StatelessWidget {
   final double musicPlayerHeight = 200;
   final double controlPanelWidth = 250;
 
-  MusicAnalyzerPage({required this.song, required this.preloadedPlayers});
+  const MusicAnalyzerPage({super.key, required this.song, required this.preloadedPlayers});
 
   @override
   Widget build(BuildContext context) {

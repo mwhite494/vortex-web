@@ -8,13 +8,13 @@ class MusicPlayer extends StatefulWidget {
   final String song;
   final List<AudioPlayer> preloadedPlayers;
 
-  MusicPlayer({required this.song, required this.preloadedPlayers});
+  const MusicPlayer({super.key, required this.song, required this.preloadedPlayers});
 
   @override
-  _MusicPlayerState createState() => _MusicPlayerState();
+  MusicPlayerState createState() => MusicPlayerState();
 }
 
-class _MusicPlayerState extends State<MusicPlayer> {
+class MusicPlayerState extends State<MusicPlayer> {
   late AudioPlayer _audioPlayer;
   final double _initVolume = 0.0;
   VolumeState volumeState = VolumeState.mute;
