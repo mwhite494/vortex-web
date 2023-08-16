@@ -22,24 +22,45 @@ class MusicAnalyzerPage extends StatelessWidget {
           Row(
             children: [
               Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.blue.withOpacity(0.3),
+                    width: 2,
+                    style: BorderStyle.solid
+                  ),
+                  borderRadius: BorderRadius.circular(10)
+                ),
                 margin: const EdgeInsets.all(24),
                 width: visualizerContentWidth,
                 height: visualizerContentHeight,
-                color: Colors.purple,
               ),
               Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.blue.withOpacity(0.3),
+                    width: 2,
+                    style: BorderStyle.solid
+                  ),
+                  borderRadius: BorderRadius.circular(10)
+                ),
                 margin: const EdgeInsets.fromLTRB(0, 24, 24, 24),
                 width: controlPanelWidth,
                 height: visualizerContentHeight,
-                color: Colors.orange,
               )
             ],
           ),
           Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.blue.withOpacity(0.3),
+                width: 2,
+                style: BorderStyle.solid
+              ),
+              borderRadius: BorderRadius.circular(10)
+            ),
             margin: const EdgeInsets.fromLTRB(24, 0, 24, 24),
             height: musicPlayerHeight,
             width: windowSize.width,
-            color: Colors.blue.withOpacity(0.2),
             child: MusicPlayer(song: song, preloadedPlayers: preloadedPlayers,),
           )
         ],
