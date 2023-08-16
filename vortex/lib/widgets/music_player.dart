@@ -19,6 +19,8 @@ class MusicPlayerState extends State<MusicPlayer> {
   final double _initVolume = 0.0;
   VolumeState volumeState = VolumeState.mute;
   StreamSubscription<double>? _volumeSubscription;
+  Duration _position = Duration.zero;
+  bool _isUserDraggingSeekBar = false;
 
 
   @override
@@ -96,15 +98,17 @@ class MusicPlayerState extends State<MusicPlayer> {
         return StreamBuilder<Duration?>(
           stream: _audioPlayer.positionStream,
           builder: (context, snapshot) {
-            var position = snapshot.data ?? Duration.zero;
-            if (position > duration) {
-              position = duration;
+            if (!_isUserDraggingSeekBar) {
+              _position = snapshot.data ?? Duration.zero;
+            }
+            if (_position > duration) {
+              _position = duration;
             }
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "${position.inMinutes}:${(position.inSeconds % 60).toString().padLeft(2, '0')}",
+                  "${_position.inMinutes}:${(_position.inSeconds % 60).toString().padLeft(2, '0')}",
                   style: const TextStyle(fontSize: 16),
                 ),
                 const SizedBox(width: 8),
@@ -112,13 +116,15 @@ class MusicPlayerState extends State<MusicPlayer> {
                   child: Slider(
                     onChanged: (newValue) {
                       setState(() {
-                        position = Duration(milliseconds: newValue.toInt());
+                        _isUserDraggingSeekBar = true;
+                        _position = Duration(milliseconds: newValue.toInt());
                       });
                     },
                     onChangeEnd: (newValue) {
+                      _isUserDraggingSeekBar = false;
                       _audioPlayer.seek(Duration(milliseconds: newValue.toInt()));
                     },
-                    value: position.inMilliseconds.toDouble(),
+                    value: _position.inMilliseconds.toDouble(),
                     min: 0.0,
                     max: duration.inMilliseconds.toDouble(),
                   ),
