@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:vortex/models/song.dart';
 
 import 'package:vortex/pages/index.dart' show MusicAnalyzerPage, SongSelectionPage;
 
@@ -10,12 +11,12 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  final List<String> songs = [
-    'droeloe_panorama.mp3',
-    'droeloe_sunburn.mp3',
-    'DROELOE_Statues.wav',
-    'MELVV_Blank.wav'
-    // Add more song file names here
+  final List<Song> songs = [
+    Song(title: "Panorama", artist: "DROELOE", audioFilename: "droeloe_panorama.mp3", visualizationDataFilename: "droeloe_panorama_data_lufs_standardization.json"),
+    Song(title: "Sunburn", artist: "DROELOE", audioFilename: "droeloe_sunburn.mp3", visualizationDataFilename: "droeloe_sunburn_data_lufs_standardization.json"),
+    Song(title: "Statues", artist: "DROELOE", audioFilename: "DROELOE_Statues.wav", visualizationDataFilename: "DROELOE_Statues_data_lufs_standardization.json"),
+    Song(title: "Blank", artist: "MELVV", audioFilename: "MELVV_Blank.wav", visualizationDataFilename: "MELVV_Blank_data_lufs_standardization.json"),
+    // Add more songs here
   ];
 
   @override
@@ -58,14 +59,14 @@ class MyApp extends StatelessWidget {
   }
 
   // Function to preload audio files
-  Future<List<AudioPlayer>> _preloadSongs(List<String> songs) async {
+  Future<List<AudioPlayer>> _preloadSongs(List<Song> songs) async {
     List<AudioPlayer> preloadedPlayers = [];
-    for (String song in songs) {
+    for (Song song in songs) {
       AudioPlayer player = AudioPlayer();
       await player.setAudioSource(
         AudioSource.uri(
-          Uri.parse('asset:///songs/$song'),
-          tag: {'id': 'songs/$song'},
+          Uri.parse('asset:///songs/${song.audioFilename}'),
+          tag: {'id': 'songs/${song.audioFilename}'},
         ),
       );
       preloadedPlayers.add(player);

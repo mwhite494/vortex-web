@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:vortex/models/song.dart';
 import 'package:vortex/widgets/index.dart';
 import 'package:vortex/widgets/visualizer.dart';
 
 class MusicAnalyzerPage extends StatelessWidget {
-  final String song;
+  final Song song;
   final List<AudioPlayer> preloadedPlayers;
   final double musicPlayerHeight = 200;
   final double controlPanelWidth = 250;
@@ -17,7 +18,7 @@ class MusicAnalyzerPage extends StatelessWidget {
     double visualizerContentHeight = windowSize.height - (musicPlayerHeight + 128);
     double visualizerContentWidth = windowSize.width - (controlPanelWidth + 72);
     return Scaffold(
-      appBar: AppBar(title: Text(song)),
+      appBar: AppBar(title: Text(song.header)),
       body: Column(
         children: [
           Row(
@@ -63,7 +64,7 @@ class MusicAnalyzerPage extends StatelessWidget {
             margin: const EdgeInsets.fromLTRB(24, 0, 24, 24),
             height: musicPlayerHeight,
             width: windowSize.width,
-            child: MusicPlayer(song: song, preloadedPlayers: preloadedPlayers,),
+            child: MusicPlayer(song: song.audioFilename, preloadedPlayers: preloadedPlayers,),
           )
         ],
       ),
