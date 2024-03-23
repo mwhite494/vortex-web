@@ -1,0 +1,5 @@
+# Ignore songs and data folders containing large data used for testing python scripts
+python/basic_equalizer/songs
+python/basic_equalizer/data
+python/source_separation/songs
+python/source_separation/data
