@@ -35,7 +35,7 @@ class MusicAnalyzerPage extends StatelessWidget {
                 margin: const EdgeInsets.all(24),
                 width: visualizerContentWidth,
                 height: visualizerContentHeight,
-                child: MusicVisualizer(),
+                child: MusicVisualizer(visualizationData: player.visualizationData,),
               ),
               Container(
                 decoration: BoxDecoration(

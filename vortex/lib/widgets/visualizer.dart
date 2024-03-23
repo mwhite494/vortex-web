@@ -1,7 +1,26 @@
 import 'package:flutter/material.dart';
 
-class MusicVisualizer extends StatelessWidget {
-  const MusicVisualizer({super.key});
+class MusicVisualizer extends StatefulWidget {
+  final Map<String, dynamic> visualizationData;
+
+  const MusicVisualizer({
+    super.key,
+    required this.visualizationData,
+  });
+
+  @override
+  MusicVisualizerState createState() => MusicVisualizerState();
+}
+
+class MusicVisualizerState extends State<MusicVisualizer> {
+
+  @override
+  void initState() {
+    super.initState();
+    List<dynamic> visualizationArray = widget.visualizationData['visualization_data'];
+    print('Init visualizer');
+    print(visualizationArray[10000]);
+  }
 
   @override
   Widget build(BuildContext context) {
