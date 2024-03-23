@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:vortex/models/song.dart';
+import 'package:vortex/models/visualization_player.dart';
 
 import 'package:vortex/pages/index.dart' show MusicAnalyzerPage, SongSelectionPage;
 
@@ -19,6 +20,8 @@ class MyApp extends StatelessWidget {
     // Add more songs here
   ];
 
+  MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -26,22 +29,26 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: FutureBuilder<List<AudioPlayer>>(
+      home: FutureBuilder<List<VisualizationPlayer>>(
         future: _preloadSongs(songs),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
+            List<VisualizationPlayer> preloadedPlayers = snapshot.data!;
             return Builder(builder: (context) {
               return SongSelectionPage(
                 songs: songs,
-                onSelect: (song) => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MusicAnalyzerPage(
-                      song: song,
-                      preloadedPlayers: snapshot.data!,
+                onSelect: (song) {
+                  VisualizationPlayer player = preloadedPlayers.firstWhere((element) => element.id == song.header);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MusicAnalyzerPage(
+                        song: song,
+                        player: player,
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                }
               );
             });
           } else {
@@ -59,17 +66,28 @@ class MyApp extends StatelessWidget {
   }
 
   // Function to preload audio files
-  Future<List<AudioPlayer>> _preloadSongs(List<Song> songs) async {
-    List<AudioPlayer> preloadedPlayers = [];
+  Future<List<VisualizationPlayer>> _preloadSongs(List<Song> songs) async {
+    // Initialize array to hold each visualization player (containing audio player and visualization data json)
+    List<VisualizationPlayer> preloadedPlayers = [];
+    
+    // Iterate over each song
     for (Song song in songs) {
-      AudioPlayer player = AudioPlayer();
-      await player.setAudioSource(
+      
+      // Load the audio player
+      AudioPlayer audioPlayer = AudioPlayer();
+      await audioPlayer.setAudioSource(
         AudioSource.uri(
           Uri.parse('asset:///songs/${song.audioFilename}'),
-          tag: {'id': 'songs/${song.audioFilename}'},
         ),
       );
-      preloadedPlayers.add(player);
+      
+      // Load the visualization data json
+      final String visualizationJsonRaw = await rootBundle.loadString('assets/visualizer_data/${song.visualizationDataFilename}');
+      final Map<String, dynamic> visualizationJson = json.decode(visualizationJsonRaw);
+
+      // Package the audio player and visualization data into a VisualizationPlayer object and add it to preloadedPlayers
+      VisualizationPlayer visualizationPlayer = VisualizationPlayer(id: song.header, audioPlayer: audioPlayer, visualizationData: visualizationJson);
+      preloadedPlayers.add(visualizationPlayer);
     }
     return preloadedPlayers;
   }

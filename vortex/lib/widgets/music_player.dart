@@ -6,10 +6,10 @@ import 'package:vortex/enums/volume_state.dart';
 
 class MusicPlayer extends StatefulWidget {
   final String song;
-  final List<AudioPlayer> preloadedPlayers;
+  final AudioPlayer audioPlayer;
   Stream<Map<String, double>>? bandDataStream;
 
-  MusicPlayer({super.key, required this.song, required this.preloadedPlayers, this.bandDataStream});
+  MusicPlayer({super.key, required this.song, required this.audioPlayer, this.bandDataStream});
 
   @override
   MusicPlayerState createState() => MusicPlayerState();
@@ -39,9 +39,7 @@ class MusicPlayerState extends State<MusicPlayer> {
 
   Future<void> _loadAndPlayAudio() async {
     try {
-      _audioPlayer = widget.preloadedPlayers.firstWhere(
-        (player) => player.sequence != null && player.sequence!.first.tag['id'] == 'songs/${widget.song}',
-      );
+      _audioPlayer = widget.audioPlayer;
 
       await _audioPlayer.seek(Duration.zero);
       await _audioPlayer.setVolume(_initVolume);
