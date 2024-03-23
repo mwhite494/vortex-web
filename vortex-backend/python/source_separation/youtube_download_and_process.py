@@ -19,6 +19,7 @@ def download_and_convert_to_wav(youtube_url, output_filename):
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
+        # Wrap YouTube URL and output filename in double quotes!
         print("Usage: python script.py <YouTube URL> <output filename (without extension)>")
         sys.exit(1)
     

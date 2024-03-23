@@ -13,10 +13,11 @@ void main() {
 
 class MyApp extends StatelessWidget {
   final List<Song> songs = [
-    Song(title: "Panorama", artist: "DROELOE", audioFilename: "droeloe_panorama.mp3", visualizationDataFilename: "droeloe_panorama_data_lufs_standardization.json"),
-    Song(title: "Sunburn", artist: "DROELOE", audioFilename: "droeloe_sunburn.mp3", visualizationDataFilename: "droeloe_sunburn_data_lufs_standardization.json"),
-    Song(title: "Statues", artist: "DROELOE", audioFilename: "DROELOE_Statues.wav", visualizationDataFilename: "DROELOE_Statues_data_lufs_standardization.json"),
-    Song(title: "Blank", artist: "MELVV", audioFilename: "MELVV_Blank.wav", visualizationDataFilename: "MELVV_Blank_data_lufs_standardization.json"),
+    // Song(title: "Panorama", artist: "DROELOE", audioFilename: "droeloe_panorama.mp3", visualizationDataFilename: "droeloe_panorama_data_lufs_standardization.json"),
+    // Song(title: "Statues", artist: "DROELOE", audioFilename: "DROELOE_Statues.wav", visualizationDataFilename: "DROELOE_Statues_data_lufs_standardization.json"),
+    // Song(title: "Sunburn", artist: "DROELOE", audioFilename: "droeloe_sunburn.mp3", visualizationDataFilename: "droeloe_sunburn_data_lufs_standardization.json"),
+    Song(title: "Runaway", artist: "Kanye West", audioFilename: "Kanye_West_Runaway.wav", visualizationDataFilename: "Kanye_West_Runaway_data_lufs_standardization.json"),
+    // Song(title: "Blank", artist: "MELVV", audioFilename: "MELVV_Blank.wav", visualizationDataFilename: "MELVV_Blank_data_lufs_standardization.json"),
     // Add more songs here
   ];
 
@@ -86,7 +87,7 @@ class MyApp extends StatelessWidget {
       final Map<String, dynamic> visualizationJson = json.decode(visualizationJsonRaw);
 
       // Package the audio player and visualization data into a VisualizationPlayer object and add it to preloadedPlayers
-      VisualizationPlayer visualizationPlayer = VisualizationPlayer(id: song.header, audioPlayer: audioPlayer, visualizationData: visualizationJson);
+      VisualizationPlayer visualizationPlayer = VisualizationPlayer(id: song.header, audioPlayer: audioPlayer, visualizationJson: visualizationJson);
       preloadedPlayers.add(visualizationPlayer);
     }
     return preloadedPlayers;

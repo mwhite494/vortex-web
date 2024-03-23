@@ -20,7 +20,7 @@ class MusicPlayer extends StatefulWidget {
 
 class MusicPlayerState extends State<MusicPlayer> {
   late AudioPlayer _audioPlayer;
-  final double _initVolume = 0.0;
+  final double _initVolume = 0.25;
   VolumeState volumeState = VolumeState.mute;
   StreamSubscription<double>? _volumeSubscription;
   Duration _position = Duration.zero;
