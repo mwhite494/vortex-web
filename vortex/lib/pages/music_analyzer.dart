@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:vortex/widgets/index.dart';
+import 'package:vortex/widgets/visualizer.dart';
 
 class MusicAnalyzerPage extends StatelessWidget {
   final String song;
@@ -33,6 +34,7 @@ class MusicAnalyzerPage extends StatelessWidget {
                 margin: const EdgeInsets.all(24),
                 width: visualizerContentWidth,
                 height: visualizerContentHeight,
+                child: MusicVisualizer(),
               ),
               Container(
                 decoration: BoxDecoration(

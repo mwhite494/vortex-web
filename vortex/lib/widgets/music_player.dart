@@ -7,8 +7,9 @@ import 'package:vortex/enums/volume_state.dart';
 class MusicPlayer extends StatefulWidget {
   final String song;
   final List<AudioPlayer> preloadedPlayers;
+  Stream<Map<String, double>>? bandDataStream;
 
-  const MusicPlayer({super.key, required this.song, required this.preloadedPlayers});
+  MusicPlayer({super.key, required this.song, required this.preloadedPlayers, this.bandDataStream});
 
   @override
   MusicPlayerState createState() => MusicPlayerState();

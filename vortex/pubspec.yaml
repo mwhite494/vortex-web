@@ -62,8 +62,12 @@ flutter:
   uses-material-design: true
 
   assets:
-    - songs/droeloe_panorama.mp3
-    - songs/droeloe_sunburn.mp3
+    - assets/songs/droeloe_panorama.mp3
+    - assets/songs/droeloe_sunburn.mp3
+    - assets/songs/DROELOE_Statues.wav
+    - assets/songs/MELVV_Blank.wav
+    - assets/visualizer_data/droeloe_panorama_data_lufs_standardization.json
+    - assets/visualizer_data/droeloe_sunburn_data_lufs_standardization.json
 
   # To add assets to your application, add an assets section, like this:
   # assets:

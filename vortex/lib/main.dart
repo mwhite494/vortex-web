@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 
 import 'package:vortex/pages/index.dart' show MusicAnalyzerPage, SongSelectionPage;
@@ -11,6 +13,8 @@ class MyApp extends StatelessWidget {
   final List<String> songs = [
     'droeloe_panorama.mp3',
     'droeloe_sunburn.mp3',
+    'DROELOE_Statues.wav',
+    'MELVV_Blank.wav'
     // Add more song file names here
   ];
 
@@ -53,6 +57,7 @@ class MyApp extends StatelessWidget {
     );
   }
 
+  // Function to preload audio files
   Future<List<AudioPlayer>> _preloadSongs(List<String> songs) async {
     List<AudioPlayer> preloadedPlayers = [];
     for (String song in songs) {
@@ -67,4 +72,13 @@ class MyApp extends StatelessWidget {
     }
     return preloadedPlayers;
   }
+
+  // Function to preload visualization data
+  Future<List<Map<String, double>>> readJsonBandData(String filePath) async {
+    final String jsonString = await rootBundle.loadString(filePath);
+    final List<dynamic> jsonResponse = json.decode(jsonString);
+    // Convert dynamic to your band data type
+    return jsonResponse.map((e) => Map<String, double>.from(e)).toList();
+  }
+
 }

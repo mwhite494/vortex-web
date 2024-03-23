@@ -1,0 +1,9 @@
+python mp4_to_wav.py /Users/marcowhite/Documents/vortex/source_separation/droeloe_panorama.mp4 /Users/marcowhite/Documents/vortex/source_separation/droeloe_panorama.wav
+
+python audio_source_separator.py /Users/marcowhite/Documents/vortex/source_separation/droeloe_panorama.wav
+
+umx --model umxhq droeloe_panorama.wav
+
+spleeter separate -o spleeter_5stem -p spleeter:5stems other.wav
+
+python youtube_download_and_process.py https://www.youtube.com/watch?v=ntp9_iznQ-0
